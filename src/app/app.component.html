@@ -1,2 +1,28 @@
-<app-voice-button />
-<router-outlet />
+
+<mat-toolbar>
+  <span>AR-nold</span>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/home">Home</a>
+  <a mat-button routerLink="/about">About</a>
+  <a mat-button routerLink="/contact">Contact</a>
+</mat-toolbar>
+
+<div>
+  <app-voice-button />
+</div>
+
+  <div class="custom-grid">
+    <div class="left"><router-outlet></router-outlet></div>
+    <div class="right">
+      @let logs = (logs$ | async);
+      @if (logs?.length) {
+        <ul>
+          @for (log of logs; track log) {
+            <li>{{ log }}</li>
+          }
+        </ul>
+      }
+    </div>
+  </div>
+
+

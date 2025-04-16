@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { VoiceControlService } from '../../services/voice-control.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { LanguageSelectorComponent } from "../language-selector/language-selector.component";
 
 @Component({
   selector: 'app-voice-button',
   standalone: true,
+  imports: [MatIcon, MatButton, LanguageSelectorComponent],
   templateUrl: './voice-button.component.html',
   styleUrls: ['./voice-button.component.scss']
 })

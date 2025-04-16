@@ -1,0 +1,10 @@
+.custom-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .left, .right {
+    padding: 1rem 0 0 0;
+  }

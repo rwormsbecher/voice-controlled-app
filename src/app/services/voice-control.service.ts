@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 declare global {
   interface Window {
@@ -16,12 +16,15 @@ export class VoiceControlService {
   private isListening = false;
 
   private commandSubject = new Subject<string>();
+  private logSubject = new BehaviorSubject<string[]>([]);
   command$ = this.commandSubject.asObservable(); 
+
+  log$ = this.logSubject.asObservable();
 
   constructor() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     this.recognition = new SpeechRecognition();
-    this.recognition.lang = 'zh-CN';
+    this.recognition.lang = 'en-us';
     this.recognition.interimResults = false;
     this.recognition.maxAlternatives = 1;
 
@@ -30,6 +33,8 @@ export class VoiceControlService {
 
       // publish to all subscribers.
       this.commandSubject.next(transcript); 
+      const currentLog = this.logSubject.value;
+      this.logSubject.next([...currentLog, transcript]);
     };
 
     this.recognition.onerror = (event: any) => {
