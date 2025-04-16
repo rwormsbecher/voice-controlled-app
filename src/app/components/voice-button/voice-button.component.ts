@@ -15,7 +15,9 @@ export class VoiceButtonComponent {
   ) {}
 
   listen() {
-    this.voiceService.startListening((command: string) => {
+   this.voiceService.startListening();
+    this.voiceService.command$.subscribe((command: string) => {
+      console.log('started listening on voice button')
       console.log('Voice command:', command);
 
       if (command.includes('home')) {
@@ -24,9 +26,9 @@ export class VoiceButtonComponent {
         this.router.navigate(['/about']);
       } else if (command.includes('contact')) {
         this.router.navigate(['/contact']);
-      } else {
-        alert(`Unknown command: "${command}"`);
-      }
+      } 
+
+      console.log('command to log', command)
     });
   }
 }
