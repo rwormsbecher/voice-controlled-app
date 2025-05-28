@@ -17,6 +17,11 @@ export const routes: Routes = [
       import('./pages/contact/contact.component').then(m => m.ContactComponent),
   },
   {
+    path: 'animation',
+    loadComponent: () =>
+      import('./pages/animation-component/animation-component.component').then(m => m.AnimationComponent)
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'home',

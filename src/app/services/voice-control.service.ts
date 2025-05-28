@@ -24,7 +24,7 @@ export class VoiceControlService {
   constructor() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     this.recognition = new SpeechRecognition();
-    this.recognition.lang = 'en-us';
+    this.recognition.lang = 'en-en';
     this.recognition.interimResults = false;
     this.recognition.maxAlternatives = 1;
 
