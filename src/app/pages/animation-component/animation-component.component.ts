@@ -32,12 +32,39 @@ export class AnimationComponent implements AfterViewInit, OnInit {
   constructor(private voiceService: VoiceControlService) {}
   ngOnInit(): void {
     this.voiceService.command$.subscribe((command: string) => {
-      console.log('started listening in animation component.');
-     
 
       if (command.includes('jump')) {
-        console.log('we are lsitening on the new service for jump' )
         this.jumpCharacter();
+      }  else if (command.includes('dance')) {
+        this.setAnimation('Dance')
+      }
+      else if (command.includes('turn right')) {
+        this.rotateCharacter(-Math.PI / 2)
+      }
+      else if (command.includes('turn left')) {
+        this.rotateCharacter(Math.PI / 2)
+      } 
+      else if (command.includes('move forward')) {
+        this.moveCharacter(0, 0, 1);
+      } 
+      else if (command.includes('move backward')) {
+        this.moveCharacter(0, 0, -1);
+      } 
+      else if (command.includes('run')) {
+        this.setAnimation('Run')
+      } 
+      else if (command.includes('move right')) {
+        this.moveCharacter(1, 0, 0)
+      } 
+      else if (command.includes('move left')) {
+        this.moveCharacter(-1, 0, 0)
+      } 
+      else if (command.includes('idle')) {
+        this.setAnimation('Idle')
+      } 
+      else if (command.includes('stop')) {
+        this.setAnimation('Idle');
+        this.characterState.speed = 1;
       } 
   });
 }
@@ -65,7 +92,15 @@ export class AnimationComponent implements AfterViewInit, OnInit {
   setAnimation(clip: string) {
     if (this.characterState.currentAnimation !== clip) {
       this.characterState.currentAnimation = clip;
-      this.character.nativeElement.setAttribute('animation-mixer', { clip });
+  
+      // Important: Use string, not object
+      this.character.nativeElement.setAttribute('animation-mixer', `clip: ${clip}`);
+      console.log(`Switched animation to: ${clip}`);
+  
+      const availableClips = this.character.nativeElement.components['animation-mixer']?.mixer?._actions;
+      if (availableClips) {
+        console.log('Available clips:', Object.keys(availableClips));
+      }
     }
   }
 
