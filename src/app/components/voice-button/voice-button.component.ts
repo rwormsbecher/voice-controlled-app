@@ -35,6 +35,8 @@ export class VoiceButtonComponent implements OnInit {
           this.router.navigate(['/about']);
         } else if (command.includes('contact')) {
           this.router.navigate(['/contact']);
+        } else if (command.includes('animation')) {
+          this.router.navigate(['/animation']);
         }
       }
     });
