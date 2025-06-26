@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, effect, signal } from '@angular/core';
 import { VoiceControlService } from '../../services/voice-control.service';
 
 @Component({
@@ -8,26 +8,31 @@ import { VoiceControlService } from '../../services/voice-control.service';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-    constructor(  private voiceService: VoiceControlService) {}
     regionIsVisible = signal(true)
     
 
-    ngOnInit(): void {
-        this.voiceService.command$.subscribe((command: string) => {
-          console.log('started listening in home component.');
-         
-
-          if (command.includes('hide region')) {
-            console.log('region hidden');
-            this.regionIsVisible.set(false);
-          } else if (command.includes('show region')) {
-            this.regionIsVisible.set(true);
-          
-          } else if (command.includes('去死')) {
-            this.regionIsVisible.set(false);
-          }
-          
+    constructor(  private voiceService: VoiceControlService) {
+        // Create an effect to handle command changes
+        effect(() => {
+            const command = this.voiceService.command();
+            if (command) {
+                // Handle the command here
+                console.log('Home received command:', command);
+                
+                // Add your command handling logic here
+                if (command.includes('show region')) {
+                    this.regionIsVisible.set(true);
+                } else if (command.includes('hide region')) {
+                    this.regionIsVisible.set(false);
+                } else if (command.includes('去死')) {
+                    this.regionIsVisible.set(false);
+                }
+            }
         });
+    }
+
+    ngOnInit(): void {
+        // No need for subscription here since we're handling commands in the effect
     }
 
 

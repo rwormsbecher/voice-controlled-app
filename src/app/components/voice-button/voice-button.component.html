@@ -1,11 +1,9 @@
-
-
 <div class="custom-grid">
     <div class="left">
-        <button mat-flat-button color="primary" (click)="listen()">
-            <mat-icon>mic</mat-icon>
-            Start voice control
-          </button>
+        <button mat-flat-button color="primary" (click)="toggleListening()">
+            <mat-icon>{{isListening ? 'mic' : 'mic_off'}}</mat-icon>
+            {{isListening ? 'Stop Listening' : 'Start Listening'}}
+        </button>
     </div>
     <div class="right"><app-language-selector></app-language-selector></div>
   </div>

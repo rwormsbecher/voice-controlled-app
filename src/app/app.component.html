@@ -1,4 +1,3 @@
-
 <mat-toolbar>
   <span>AR-nold</span>
   <span class="spacer"></span>
@@ -12,18 +11,22 @@
   <app-voice-button />
 </div>
 
-  <div class="custom-grid">
-    <div class="left"><router-outlet></router-outlet></div>
-    <div class="right">
-      @let logs = (logs$ | async);
-      @if (logs?.length) {
-        <ul>
-          @for (log of logs; track log) {
-            <li>{{ log }}</li>
-          }
-        </ul>
-      }
-    </div>
+<div class="custom-grid">
+  <div class="left">
+    <router-outlet></router-outlet>
   </div>
+  <div class="right">
+    @if (logs$ | async; as logs) {
+      <ul class="log-list">
+        @for (log of logs; track log.id) {
+          <li class="log-entry">
+            <span class="log-time">{{ log.timestamp | date:'HH:mm:ss' }}</span>
+            <span class="log-message">{{ log.message }}</span>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>
 
 

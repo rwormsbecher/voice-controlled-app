@@ -1,5 +1,11 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+interface LogEntry {
+  id: number;
+  message: string;
+  timestamp: number;
+}
 
 declare global {
   interface Window {
@@ -15,14 +21,18 @@ export class VoiceControlService {
   private recognition: any;
   private isListening = false;
   private restartTimeout: any;
+  private logCounter = 0;
 
-  private commandSubject = new Subject<string>();
-  private logSubject = new BehaviorSubject<string[]>([]);
+  private commandSignal: WritableSignal<string> = signal('');
+  private logSubject = new BehaviorSubject<LogEntry[]>([]);
   private errorSubject = new BehaviorSubject<string>('');
   
-  command$ = this.commandSubject.asObservable();
   log$ = this.logSubject.asObservable();
   error$ = this.errorSubject.asObservable();
+
+  get command() {
+    return this.commandSignal;
+  }
 
   constructor() {
     this.initializeSpeechRecognition();
@@ -43,9 +53,14 @@ export class VoiceControlService {
 
       this.recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript.trim().toLowerCase();
-        this.commandSubject.next(transcript);
+        this.commandSignal.set(transcript);
         const currentLog = this.logSubject.value;
-        this.logSubject.next([...currentLog, transcript]);
+        const newLogEntry: LogEntry = {
+          id: ++this.logCounter,
+          message: transcript,
+          timestamp: Date.now()
+        };
+        this.logSubject.next([...currentLog, newLogEntry]);
       };
 
       this.recognition.onerror = (event: any) => {

@@ -4,7 +4,8 @@ import {
   ElementRef,
   ViewChild,
   CUSTOM_ELEMENTS_SCHEMA,
-  OnInit
+  OnInit,
+  effect
 } from '@angular/core';
 import { VoiceControlService } from '../../services/voice-control.service';
 
@@ -21,7 +22,6 @@ export class AnimationComponent implements AfterViewInit, OnInit {
   @ViewChild('commandOutput') commandOutput!: ElementRef<HTMLDivElement>;
   @ViewChild('character') character!: ElementRef;
 
-  recognition: any;
   characterState = {
     position: new THREE.Vector3(0, 0, -5),
     rotation: new THREE.Euler(0, 0, 0),
@@ -29,53 +29,47 @@ export class AnimationComponent implements AfterViewInit, OnInit {
     currentAnimation: 'Idle'
   };
 
-  constructor(private voiceService: VoiceControlService) {}
-  ngOnInit(): void {
-    this.voiceService.command$.subscribe((command: string) => {
+  constructor(private voiceService: VoiceControlService) {
+    // Create an effect to handle command changes
+    effect(() => {
+      const command = this.voiceService.command();
+      
+      if (command) {
+        if (command.includes('jump')) {
+          this.jumpCharacter();
+        } else if (command.includes('dance')) {
+          this.setAnimation('Dance');
+        } else if (command.includes('turn right')) {
+          this.rotateCharacter(-Math.PI / 2);
+        } else if (command.includes('turn left')) {
+          this.rotateCharacter(Math.PI / 2);
+        } else if (command.includes('move forward')) {
+          this.moveCharacter(0, 0, 1);
+        } else if (command.includes('move backward')) {
+          this.moveCharacter(0, 0, -1);
+        } else if (command.includes('run')) {
+          this.setAnimation('Run');
+        } else if (command.includes('move right')) {
+          this.moveCharacter(1, 0, 0);
+        } else if (command.includes('move left')) {
+          this.moveCharacter(-1, 0, 0);
+        } else if (command.includes('idle')) {
+          this.setAnimation('Idle');
+        } else if (command.includes('stop')) {
+          this.setAnimation('Idle');
+          this.characterState.speed = 1;
+        }
+      }
+    });
+  }
 
-      if (command.includes('jump')) {
-        this.jumpCharacter();
-      }  else if (command.includes('dance')) {
-        this.setAnimation('Dance')
-      }
-      else if (command.includes('turn right')) {
-        this.rotateCharacter(-Math.PI / 2)
-      }
-      else if (command.includes('turn left')) {
-        this.rotateCharacter(Math.PI / 2)
-      } 
-      else if (command.includes('move forward')) {
-        this.moveCharacter(0, 0, 1);
-      } 
-      else if (command.includes('move backward')) {
-        this.moveCharacter(0, 0, -1);
-      } 
-      else if (command.includes('run')) {
-        this.setAnimation('Run')
-      } 
-      else if (command.includes('move right')) {
-        this.moveCharacter(1, 0, 0)
-      } 
-      else if (command.includes('move left')) {
-        this.moveCharacter(-1, 0, 0)
-      } 
-      else if (command.includes('idle')) {
-        this.setAnimation('Idle')
-      } 
-      else if (command.includes('stop')) {
-        this.setAnimation('Idle');
-        this.characterState.speed = 1;
-      } 
-  });
-}
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.character.nativeElement.addEventListener('model-loaded', () => {
       this.updateCharacterTransform();
     });
   }
-
-
 
   moveCharacter(x: number, y: number, z: number) {
     this.setAnimation('Run');
