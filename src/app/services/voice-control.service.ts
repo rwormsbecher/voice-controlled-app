@@ -22,11 +22,13 @@ export class VoiceControlService {
   private isListening = false;
   private restartTimeout: any;
   private logCounter = 0;
+  private shouldRestartAfterEnd = false;
 
   private commandSignal: WritableSignal<string> = signal('');
   private logSubject = new BehaviorSubject<LogEntry[]>([]);
   private errorSubject = new BehaviorSubject<string>('');
-  
+  public language = signal<string>("");
+
   log$ = this.logSubject.asObservable();
   error$ = this.errorSubject.asObservable();
 
@@ -66,7 +68,7 @@ export class VoiceControlService {
       this.recognition.onerror = (event: any) => {
         console.error('Speech recognition error:', event.error);
         this.errorSubject.next(event.error);
-        
+
         if (event.error === 'not-allowed') {
           this.isListening = false;
           this.errorSubject.next('Microphone permission denied. Please allow microphone access.');
@@ -74,12 +76,19 @@ export class VoiceControlService {
       };
 
       this.recognition.onend = () => {
-        if (this.isListening) {
-          // Clear any existing timeout
+        if (this.shouldRestartAfterEnd) {
+          this.shouldRestartAfterEnd = false;
+          try {
+            this.recognition.start();
+          } catch (error) {
+            console.error('Failed to restart recognition after language change:', error);
+            this.isListening = false;
+            this.errorSubject.next('Failed to restart speech recognition after language change');
+          }
+        } else if (this.isListening) {
           if (this.restartTimeout) {
             clearTimeout(this.restartTimeout);
           }
-          // Set a new timeout for restart
           this.restartTimeout = setTimeout(() => {
             try {
               this.recognition.start();
@@ -91,7 +100,6 @@ export class VoiceControlService {
           }, 300);
         }
       };
-
     } catch (error) {
       console.error('Error initializing speech recognition:', error);
       this.errorSubject.next('Speech recognition initialization failed');
@@ -101,12 +109,11 @@ export class VoiceControlService {
   async startListening() {
     if (!this.isListening) {
       try {
-        // Check if we have microphone permission
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        stream.getTracks().forEach(track => track.stop()); // Clean up the test stream
-        
+        stream.getTracks().forEach(track => track.stop());
+
         this.isListening = true;
-        this.errorSubject.next(''); // Clear any previous errors
+        this.errorSubject.next('');
         this.recognition.start();
       } catch (error) {
         console.error('Microphone access error:', error);
@@ -125,6 +132,28 @@ export class VoiceControlService {
       this.recognition.stop();
     } catch (error) {
       console.error('Error stopping recognition:', error);
+    }
+  }
+
+  setLanguage(language: string) {
+    this.language.set(language);
+
+    const langMap: Record<string, string> = {
+      English: 'en-US',
+      Dutch: 'nl-NL',
+      Chinese: 'zh-CN'
+    };
+
+    const langCode = langMap[language] || 'en-US';
+    this.recognition.lang = langCode;
+
+    if (this.isListening) {
+      this.shouldRestartAfterEnd = true;
+      try {
+        this.recognition.abort();
+      } catch (error) {
+        console.error('Error aborting recognition for language switch:', error);
+      }
     }
   }
 }
