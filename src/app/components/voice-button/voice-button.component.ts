@@ -29,13 +29,13 @@ export class VoiceButtonComponent implements OnInit {
         // Handle the command here if needed
         console.log('Voice button received command:', command);
 
-        if (command.includes('home')) {
+        if (command.includes('home')  || command.includes('首页') ) {
           this.router.navigate(['/home']);
-        } else if (command.includes('about')) {
+        } else if (command.includes('about') || command.includes('over ons')  ||  command.includes('关于我们') ) {
           this.router.navigate(['/about']);
-        } else if (command.includes('contact')) {
+        } else if (command.includes('contact') || command.includes('联系')) {
           this.router.navigate(['/contact']);
-        } else if (command.includes('animation')) {
+        } else if (command.includes('animation') || command.includes('animatie') || command.includes('动画') ) {
           this.router.navigate(['/animation']);
         }
       }
