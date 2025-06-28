@@ -13,7 +13,6 @@ export class LanguageSelectorComponent {
   activeLanguage = computed(() => this.voiceControlService.language());
 
   constructor(private voiceControlService: VoiceControlService) {
-    
   }
 
   setLanguage(language: string) {

@@ -1,11 +1,10 @@
 <div class="form__container">
-
-    <mat-form-field>
-        <mat-label>Language</mat-label>
-        <mat-select (valueChange)="setLanguage($event)">
-            <mat-option [value]="'Dutch'">Dutch</mat-option>
-            <mat-option [value]="'English'">English</mat-option>
-            <mat-option [value]="'Chinese'">Chinese</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <mat-form-field>
+    <mat-label>Language</mat-label>
+    <mat-select [(value)]="activeLanguage()" (valueChange)="setLanguage($event)">
+      <mat-option [value]="'en-US'">English</mat-option>
+      <mat-option [value]="'nl-NL'">Dutch</mat-option>
+      <mat-option [value]="'zh-CN'">Chinese</mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>

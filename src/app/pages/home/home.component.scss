@@ -3,5 +3,5 @@
     border: 1px;
     margin: 16px 0;
     font-size: 20px;
-    background-color: hotpink;
+    background-color: var(--mdc-filled-button-container-color, var(--mat-sys-primary));
 }

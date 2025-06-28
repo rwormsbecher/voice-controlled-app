@@ -27,7 +27,7 @@ export class VoiceControlService {
   private commandSignal: WritableSignal<string> = signal('');
   private logSubject = new BehaviorSubject<LogEntry[]>([]);
   private errorSubject = new BehaviorSubject<string>('');
-  public language = signal<string>("");
+  public language = signal<string>("en-US");
 
   log$ = this.logSubject.asObservable();
   error$ = this.errorSubject.asObservable();

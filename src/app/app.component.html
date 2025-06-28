@@ -17,7 +17,7 @@
   </div>
   <div class="right">
     @if (logs$ | async; as logs) {
-      <ul class="log-list">
+      <ul class="log-list" #logContainer>
         @for (log of logs; track log.id) {
           <li class="log-entry">
             <span class="log-time">{{ log.timestamp | date:'HH:mm:ss' }}</span>
