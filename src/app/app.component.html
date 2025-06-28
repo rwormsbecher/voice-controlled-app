@@ -1,6 +1,9 @@
 <mat-toolbar>
   <span>AR-nold</span>
   <span class="spacer"></span>
+  <button mat-icon-button (click)="openHelp()" class="help-button">
+    <mat-icon>help_outline</mat-icon>
+  </button>
   <a mat-button routerLinkActive="active-link" routerLink="/home">Home</a>
   <a mat-button routerLinkActive="active-link" routerLink="/about">About</a>
   <a mat-button routerLinkActive="active-link" routerLink="/contact">Contact</a>

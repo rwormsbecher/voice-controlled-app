@@ -1,0 +1,17 @@
+.full-width {
+    width: 100%;
+    display: block;
+    margin-bottom: 16px;
+}
+
+button {
+    margin-top: 16px;
+}
+
+
+::ng-deep {
+    button[disabled] {
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        color: white !important;
+    }
+}

@@ -1,0 +1,119 @@
+<div *ngIf="isVisible()">
+    <h1 mat-dialog-title>All commands</h1>
+    <div mat-dialog-content>
+        <table class="mat-elevation-z8 mat-table">
+            <thead>
+            <tr class="mat-header-row">
+                <th class="mat-header-cell">Command</th>
+                <th class="mat-header-cell">en</th>
+                <th class="mat-header-cell">nl</th>
+                <th class="mat-header-cell">cn</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="mat-row">
+                <td class="mat-cell">Navigate Home</td>
+                <td class="mat-cell">home</td>
+                <td class="mat-cell">home</td>
+                <td class="mat-cell">首页</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Navigate About</td>
+                <td class="mat-cell">about</td>
+                <td class="mat-cell">over ons</td>
+                <td class="mat-cell">关于我们</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Navigate Contact</td>
+                <td class="mat-cell">contact</td>
+                <td class="mat-cell">contact</td>
+                <td class="mat-cell">联系</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Navigate Animation</td>
+                <td class="mat-cell">animation</td>
+                <td class="mat-cell">animatie</td>
+                <td class="mat-cell">动画</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Open Help</td>
+                <td class="mat-cell">help me</td>
+                <td class="mat-cell">help mij</td>
+                <td class="mat-cell">帮助我</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Close Help</td>
+                <td class="mat-cell">close help</td>
+                <td class="mat-cell">sluit help</td>
+                <td class="mat-cell">关闭帮助</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Show Region</td>
+                <td class="mat-cell">show region</td>
+                <td class="mat-cell">toon regio</td>
+                <td class="mat-cell">显示</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Hide Region</td>
+                <td class="mat-cell">hide region</td>
+                <td class="mat-cell">verberg regio</td>
+                <td class="mat-cell">隐藏</td>
+            </tr>
+            <tr style="background: none">
+                <td>&nbsp;</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Jump</td>
+                <td class="mat-cell">jump</td>
+                <td class="mat-cell">spring</td>
+                <td class="mat-cell">跳</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Turn Right</td>
+                <td class="mat-cell">turn right</td>
+                <td class="mat-cell">draai rechts</td>
+                <td class="mat-cell">向右转</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Turn Left</td>
+                <td class="mat-cell">turn left</td>
+                <td class="mat-cell">draai links</td>
+                <td class="mat-cell">向左转</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Move Forward</td>
+                <td class="mat-cell">move forward</td>
+                <td class="mat-cell">ga vooruit</td>
+                <td class="mat-cell">前进</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Move Backward</td>
+                <td class="mat-cell">move backward</td>
+                <td class="mat-cell">ga achteruit</td>
+                <td class="mat-cell">后退</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Move Right</td>
+                <td class="mat-cell">move right</td>
+                <td class="mat-cell">ga rechts</td>
+                <td class="mat-cell">向右走</td>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">Move Left</td>
+                <td class="mat-cell">move left</td>
+                <td class="mat-cell">ga links</td>
+                <td class="mat-cell">向左走</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div mat-dialog-actions>
+        <button (click)="closeDialog()" mat-button>Close</button>
+    </div>
+
+
+</div>
+

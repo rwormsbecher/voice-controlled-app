@@ -27,7 +27,8 @@ export class VoiceControlService {
   private commandSignal: WritableSignal<string> = signal('');
   private logSubject = new BehaviorSubject<LogEntry[]>([]);
   private errorSubject = new BehaviorSubject<string>('');
-  public language = signal<string>("en-US");
+  language = signal<string>("English");
+  helpIsVisible =signal<boolean>(false);
 
   log$ = this.logSubject.asObservable();
   error$ = this.errorSubject.asObservable();
@@ -48,7 +49,7 @@ export class VoiceControlService {
       }
 
       this.recognition = new SpeechRecognition();
-      this.recognition.lang = 'en-US';
+      this.recognition.lang = this.language;
       this.recognition.interimResults = false;
       this.recognition.maxAlternatives = 1;
       this.recognition.continuous = false;

@@ -1,3 +1,33 @@
 <h1>Contact</h1>
 
+<form (ngSubmit)="submit()" [formGroup]="form">
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Name</mat-label>
+        <input formControlName="name" matInput required type="text">
+        <mat-error *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+            Name is required
+        </mat-error>
+    </mat-form-field>
 
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput required type="email">
+        <mat-error *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+            Valid email is required
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Message</mat-label>
+        <textarea formControlName="message" matInput required></textarea>
+        <mat-error *ngIf="form.get('message')?.invalid && form.get('message')?.touched">
+            Message is required
+        </mat-error>
+    </mat-form-field>
+
+    <div>
+        <button [disabled]="form.invalid" color="primary" mat-raised-button type="submit">
+            Submit
+        </button>
+    </div>
+</form>

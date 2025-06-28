@@ -16,6 +16,6 @@ export class LanguageSelectorComponent {
   }
 
   setLanguage(language: string) {
-    this.voiceControlService.setLanguage(language) ;
+    this.voiceControlService.setLanguage(language);
   }
 }
