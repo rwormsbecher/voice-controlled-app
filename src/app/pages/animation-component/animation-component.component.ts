@@ -43,6 +43,7 @@ export class AnimationComponent implements AfterViewInit, OnInit {
                     this.moveCharacter(-1, 0, 0);
                 }
             }
+            this.voiceService.clearCommand();
         });
     }
 

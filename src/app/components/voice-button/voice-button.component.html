@@ -1,10 +1,11 @@
 <div class="custom-grid">
     <div class="left">
-        <button mat-flat-button color="primary" (click)="toggleListening()">
-            <mat-icon>{{isListening ? 'mic' : 'mic_off'}}</mat-icon>
-            {{isListening ? 'Stop Listening' : 'Start Listening'}}
+        <button (click)="toggleListening()" color="primary" mat-flat-button>
+            <mat-icon>{{ isListening() ? 'mic' : 'mic_off' }}</mat-icon>
+            {{ isListening() ? 'Stop Listening' : 'Start Listening' }}
         </button>
     </div>
-    <div class="right"><app-language-selector></app-language-selector></div>
-  </div>
-  
+    <div class="right">
+        <app-language-selector></app-language-selector>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 <h1>Contact</h1>
 
-<form (ngSubmit)="submit()" [formGroup]="form">
+<form #contactForm (ngSubmit)="submit()" [formGroup]="form">
     <mat-form-field appearance="fill" class="full-width">
         <mat-label>Name</mat-label>
         <input formControlName="name" matInput required type="text">

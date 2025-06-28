@@ -1,4 +1,4 @@
-import {Component, effect, OnInit} from '@angular/core';
+import {Component, computed, effect, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {VoiceControlService} from '../../services/voice-control.service';
 import {MatIcon} from '@angular/material/icon';
@@ -15,7 +15,7 @@ import {MatDialog} from '@angular/material/dialog';
     styleUrls: ['./voice-button.component.scss']
 })
 export class VoiceButtonComponent implements OnInit {
-    isListening = false;
+    isListening = computed(() => this.voiceService.isListening());
     error = '';
 
     constructor(
@@ -28,9 +28,6 @@ export class VoiceButtonComponent implements OnInit {
         effect(() => {
             const command = this.voiceService.command();
             if (command) {
-                // Handle the command here if needed
-                console.log('Voice button received command:', command);
-
                 if (command.includes('home') || command.includes('首页')) {
                     this.router.navigate(['/home']);
                 } else if (command.includes('about') || command.includes('over ons') || command.includes('关于我们')) {
@@ -54,7 +51,7 @@ export class VoiceButtonComponent implements OnInit {
         this.voiceService.error$.subscribe(error => {
             this.error = error;
             if (error) {
-                this.isListening = false;
+                this.voiceService.isListening.set(false);
                 this.snackBar.open(error, 'Close', {
                     duration: 5000,
                     horizontalPosition: 'center',
@@ -65,12 +62,12 @@ export class VoiceButtonComponent implements OnInit {
     }
 
     toggleListening() {
-        if (this.isListening) {
+        if (this.isListening()) {
             this.voiceService.stopListening();
-            this.isListening = false;
+            this.voiceService.isListening.set(false);
         } else {
             this.voiceService.startListening();
-            this.isListening = true;
+            this.voiceService.isListening.set(true);
         }
     }
 }
